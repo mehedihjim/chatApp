@@ -120,7 +120,7 @@ const Signup = () => {
                                 />
                                 : "Sign Up"}
                         </button>
-                        <p className='text-center text-sm lg:text-base text-[#03014C]'>Already have an account? <Link to="/" className='text-[#11175D] font-bold hover:text-[#11175D70] duration-500'>Sign In</Link></p>
+                        <p className='text-center text-sm lg:text-base text-[#03014C]'>Already have an account? <Link to="/login" className='text-[#11175D] font-bold hover:text-[#11175D70] duration-500'>Sign In</Link></p>
                     </div>
                 </div>
             </div>

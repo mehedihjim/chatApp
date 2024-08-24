@@ -1,12 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Sidebar from '../components/Sidebar'
 
 const Rootlayout = () => {
     return (
-        <>
-            <h1>Hello</h1>
+        <div className='flex'>
+            <Sidebar />
             <Outlet />
-        </>
+        </div>
     )
 }
 
