@@ -5,15 +5,11 @@ import Searchbar from '../components/Searchbar'
 
 const Rootlayout = () => {
     return (
-        <>
-            <div className='flex'>
-                <Sidebar />
-                <Searchbar />
-            </div>
-            <div className="flex">
-                <Outlet />
-            </div>
-        </>
+
+        <div className='flex'>
+            <Sidebar />
+            <Outlet />
+        </div>
     )
 }
 

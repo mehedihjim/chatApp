@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'textColor': '#11175D'
+        'textColor': '#11175D',
+        'textOther': '#4D4D4D',
       }
     },
   },
