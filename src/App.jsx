@@ -11,6 +11,9 @@ import Message from './pages/Message';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import Rootlayout from './layout/Rootlayout';
+import Support from './pages/Support';
+import Funds from './pages/Funds';
+import MiniGames from './pages/MiniGames';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +27,9 @@ const router = createBrowserRouter(
         <Route path='/messages' element={<Message />}></Route>
         <Route path='/notifications' element={<Notifications />}></Route>
         <Route path='/settings' element={<Settings />}></Route>
+        <Route path='/supports' element={<Support />}></Route>
+        <Route path='/fundraisers' element={<Funds />}></Route>
+        <Route path='/mini-games' element={<MiniGames />}></Route>
       </Route >
     </>
   )

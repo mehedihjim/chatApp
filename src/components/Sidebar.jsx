@@ -11,7 +11,7 @@ const Sidebar = () => {
     const isDashboardActive = location.pathname === '/' || location.pathname === '/dashboard';
 
     return (
-        <section id='sidebar' className='w-[260px] h-screen pl-[32px] pr-[43px] py-[35px]'>
+        <section id='sidebar' className='flex-shrink-0 w-[260px] h-screen pl-[32px] pr-[43px] py-[35px]'>
             <div className="w-full h-full bg-black rounded-[20px] pt-[38px] pb-[48px] flex flex-col justify-between">
                 <img src={profile} alt="profile pic" className='w-[100px] h-[100px] rounded-full mx-auto' />
                 <ul className=' flex flex-col items-center gap-[82px] text-[46px] text-gray-500 mt-[-78px]'>
