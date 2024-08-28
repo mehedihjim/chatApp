@@ -6,18 +6,16 @@ const UserList = () => {
         <div className='w-full h-full'>
             <ItemHeading title='Users List' />
             <div className="flex flex-col gap-4">
-                {userList.map((users, index) => (
-                    <div className="flex justify-between pb-[14px] text-left border-b">
-                        <div className="flex gap-[14px]">
-                            <img src={users.img} alt="profile" className="w-[70px] h-[70px] rounded-full border border-slate-400" />
-                            <div className="flex flex-col my-auto">
-                                <h6 className="font-semibold text-lg text-textColor">{users.name}</h6>
-                                <p className="font-medium text-sm text-textOther">{users.title}</p>
-                            </div>
+                <div className="flex justify-between pb-[14px] text-left border-b">
+                    <div className="flex gap-[14px]">
+                        <img src={users.img} alt="profile" className="w-[70px] h-[70px] rounded-full border border-slate-400" />
+                        <div className="flex flex-col my-auto">
+                            <h6 className="font-semibold text-lg text-textColor">{data.name}</h6>
+                            <p className="font-medium text-sm text-textOther">{data.title}</p>
                         </div>
-                        <p className='mt-[5px] font-medium text-[10px] text-black/50'>{users.date}</p>
                     </div>
-                ))}
+                    <p className='mt-[5px] font-medium text-[10px] text-black/50'>{data.date}</p>
+                </div>
             </div>
         </div>
     )
