@@ -1,16 +1,15 @@
-import React from 'react'
-import ItemHeading from './ItemHeading'
-import { friends } from "../constant";
+import { blocked } from "../constant"
+import ItemHeading from "./ItemHeading"
 
-const Friends = () => {
+const Blocked = () => {
     return (
         <div className='w-full h-full flex flex-col'>
             <div className="flex-shrink-0">
-                <ItemHeading title='Friends' />
+                <ItemHeading title='Blocked Users' />
             </div>
             <div className="flex-grow overflow-y-auto mt-4">
                 <div className="flex flex-col gap-4">
-                    {friends.map((users, index) => (
+                    {blocked.map((users, index) => (
                         <div key={index} className="flex justify-between pb-[14px] text-left border-b">
                             <div className="flex gap-[14px]">
                                 <img src={users.img} alt="profile" className="w-[70px] h-[70px] rounded-full border border-slate-400" />
@@ -28,4 +27,4 @@ const Friends = () => {
     )
 }
 
-export default Friends
+export default Blocked
