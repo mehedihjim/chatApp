@@ -5,7 +5,7 @@ const FriendRequest = () => {
     return (
         <div className='w-full h-full flex flex-col'>
             <div className="flex-shrink-0">
-                <ItemHeading title='Friends' />
+                <ItemHeading title='Friend Request' />
             </div>
             <div className="flex-grow overflow-y-auto mt-4">
                 <div className="flex flex-col gap-4">

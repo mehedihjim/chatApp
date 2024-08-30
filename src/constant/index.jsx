@@ -68,17 +68,6 @@ export const groupList = [
         title: "Let's help people!!!",
         img: group1
     },
-    {
-        name: "GenZ Fun Posting",
-        title: "We are Genz",
-        img: group2
-    },
-    {
-        name: "Music Lovers",
-        title: "I AM MUSIC",
-        img: group3
-    },
-
 ];
 
 export const myGroupList = [

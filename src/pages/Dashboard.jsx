@@ -18,13 +18,13 @@ const Dashboard = () => {
                 <GroupList />
             </div>
             <div className="w-[365px] h-[451px] bg-white shadow-md rounded-[20px] p-5 text-center border border-gray-300">
-                <Friends />
+                <UserList />
             </div>
             <div className="w-[365px] h-[451px]">
                 <a href="https://10ms.io/ug9dhN"><img src={Ad} alt="" className="w-full h-full" /></a>
             </div>
             <div className="w-[365px] h-[451px] bg-white shadow-md rounded-[20px] p-5 text-center border border-gray-300">
-                <UserList />
+                <Friends />
             </div>
             <div className="w-[365px] h-[451px] bg-white shadow-md rounded-[20px] p-5 text-center border border-gray-300">
                 <FriendRequest />

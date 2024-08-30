@@ -4,11 +4,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { Watch } from 'react-loader-spinner';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+
 
 const Signup = () => {
+    const auth = getAuth();
+    const db = getDatabase();
+    // Firebase Import
+
+    const notify = () => toast("Email Varification Sent~");
+
     let navigate = useNavigate();
     let [email, setEmail] = useState('');
     let [name, setName] = useState('');
@@ -57,27 +65,35 @@ const Signup = () => {
 
         if (!isValid) return;
 
-        const auth = getAuth();
-
         if (email && name && password) {
             setSuccess(true);
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    const user = userCredential.user;
-                    setTimeout(() => {
-                        navigate('/');
-                    }, 1000);
+                    sendEmailVerification(auth.currentUser)
+                        .then(() => {
+                            setSuccess(false);
+                            toast.success('Boom! Check your email to seal the deal.', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                            });
+                        });
+                    console.log(user)
                 })
                 .catch((error) => {
                     setSuccess(false);
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
                     if (error.code.includes('auth/email-already-in-use')) {
                         setEmailError(<Alert severity="error">Email Already in Use</Alert>);
                     }
+                    console.log(error);
                 });
         }
     }
+
 
     return (
         <div className='w-full h-screen flex flex-col lg:flex-row justify-between'>
