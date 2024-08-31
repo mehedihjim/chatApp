@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import signupImg from './../assets/Signup.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { Watch } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 
 
@@ -71,18 +71,37 @@ const Signup = () => {
                 .then((userCredential) => {
                     sendEmailVerification(auth.currentUser)
                         .then(() => {
-                            setSuccess(false);
-                            toast.success('Boom! Check your email to seal the deal.', {
-                                position: "top-right",
-                                autoClose: 5000,
-                                hideProgressBar: false,
-                                closeOnClick: true,
-                                pauseOnHover: true,
-                                draggable: true,
-                                progress: undefined,
+                            updateProfile(auth.currentUser, {
+                                displayName: name,
+                                photoURL: "/defaultProfilePic.png"
+                            }).then(() => {
+
+                                set(ref(db, 'users/' + userCredential.user.uid), {
+                                    username: userCredential.user.displayName,
+                                    email: userCredential.user.email,
+                                    profilePic: '/defaultProfilePic.png'
+                                }).then(() => {
+                                    setTimeout(() => {
+                                        console.log(userCredential);
+                                        setSuccess(false);
+                                        toast.success('Verify your Email', {
+                                            position: "top-right",
+                                            autoClose: 2000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                            onClose: () => {
+                                                navigate("/login");
+                                            }
+                                        });
+                                    }, 1000);
+                                })
+                            }).catch((error) => {
+                                console.log(error)
                             });
                         });
-                    console.log(user)
                 })
                 .catch((error) => {
                     setSuccess(false);

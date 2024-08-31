@@ -1,26 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
-import user1 from "../assets/profile-pic/rafsan.png";
 
 
 const initialState = {
-    value: {
-        name: "Unknown",
-        title: "Hi...",
-        img: user1
-    },
+    value: 0,
 }
 
 export const userSlice = createSlice({
-    name: 'users',
+    name: 'user',
     initialState,
     reducers: {
-        userLoginInfo: (state) => {
-            state.value;
+        loggedinUserInfo: (state, action) => {
+            state.value = action.payload
         },
     },
 })
 
 
-export const { userLoginInfo } = userSlice.actions
+export const { loggedinUserInfo } = userSlice.actions
 
 export default userSlice.reducer

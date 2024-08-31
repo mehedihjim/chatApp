@@ -10,7 +10,8 @@ const firebaseConfig = {
     projectId: "kalo-chat",
     storageBucket: "kalo-chat.appspot.com",
     messagingSenderId: "980782446908",
-    appId: "1:980782446908:web:e95bddc3e1807447664639"
+    appId: "1:980782446908:web:e95bddc3e1807447664639",
+    databaseURL: "https://kalo-chat-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 // Initialize Firebase

@@ -5,10 +5,16 @@ import { Alert } from '@mui/material'
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { loggedinUserInfo } from '../slices/userSlice';
 
 const Signup = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
+    // Firebase Import
+
+    let dispatch = useDispatch();
+
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [emailerror, setEmailError] = useState('')
@@ -32,39 +38,36 @@ const Signup = () => {
             setPasswordError(<Alert severity="error">This Field is Required</Alert>)
         }
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user)
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                if (error.code.includes('auth/invalid-credential')) {
-                    setPasswordError(<Alert severity="error">Email or Password is Wrong</Alert>);
-                }
-            });
+        if (email && password) {
+            localStorage.setItem('user', 'Jim')
+            // signInWithEmailAndPassword(auth, email, password)
+            //     .then((userCredential) => {
+            //         const user = userCredential.user;
+            //         dispatch(loggedinUserInfo(user));
+            //     })
+            //     .catch((error) => {
+            //         const errorCode = error.code;
+            //         const errorMessage = error.message;
+            //         if (error.code.includes('auth/invalid-credential')) {
+            //             setPasswordError(<Alert severity="error">Email or Password is Wrong</Alert>);
+            //         }
+            //     });
+        }
     }
 
     let handleGoogleLogin = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
+
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
-                // The signed-in user info.
                 const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
+                console.log(result)
             }).catch((error) => {
-                // Handle Errors here.
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // The email of the user's account used.
                 const email = error.customData.email;
-                // The AuthCredential type that was used.
                 const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
                 console.log(error)
             });
     }
