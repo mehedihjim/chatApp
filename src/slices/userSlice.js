@@ -10,7 +10,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         loggedinUserInfo: (state, action) => {
-            state.value = action.payload
+            state.value = action.payload;
         },
     },
 })

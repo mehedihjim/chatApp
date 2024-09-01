@@ -1,26 +1,30 @@
 import React, { useState } from 'react'
 import signupImg from './../assets/Login.jpg'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { Alert } from '@mui/material'
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { loggedinUserInfo } from '../slices/userSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 const Signup = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
+    const db = getDatabase();
     // Firebase Import
 
     let dispatch = useDispatch();
-
+    let navigate = useNavigate();
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [emailerror, setEmailError] = useState('')
     let [passworderror, setPasswordError] = useState('')
-
     let [passwordShow, setPasswordShow] = useState(false)
+    let [success, setSuccess] = useState(false);
 
     let handleEmail = (e) => {
         setEmail(e.target.value)
@@ -39,31 +43,50 @@ const Signup = () => {
         }
 
         if (email && password) {
-            localStorage.setItem('user', 'Jim')
-            // signInWithEmailAndPassword(auth, email, password)
-            //     .then((userCredential) => {
-            //         const user = userCredential.user;
-            //         dispatch(loggedinUserInfo(user));
-            //     })
-            //     .catch((error) => {
-            //         const errorCode = error.code;
-            //         const errorMessage = error.message;
-            //         if (error.code.includes('auth/invalid-credential')) {
-            //             setPasswordError(<Alert severity="error">Email or Password is Wrong</Alert>);
-            //         }
-            //     });
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user)
+                    // dispatch(loggedinUserInfo(user));
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    if (error.code.includes('auth/invalid-credential')) {
+                        setPasswordError(<Alert severity="error">Email or Password is Wrong</Alert>);
+                    }
+                });
         }
     }
 
     let handleGoogleLogin = () => {
+        setSuccess(true)
         signInWithPopup(auth, provider)
-            .then((result) => {
-
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                const user = result.user;
-                console.log(result)
+            .then((user) => {
+                set(ref(db, 'users/' + user.user.uid), {
+                    username: user.user.displayName,
+                    email: user.user.email,
+                    profilePic: user.user.photoURL
+                }).then(() => {
+                    setTimeout(() => {
+                        console.log(user);
+                        setSuccess(false);
+                        toast.success('Login Success', {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            onClose: () => {
+                                navigate("/");
+                            }
+                        });
+                    }, 1000);
+                })
             }).catch((error) => {
+                setSuccess(false)
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 const email = error.customData.email;
