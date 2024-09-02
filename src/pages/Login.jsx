@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import signupImg from './../assets/Login.jpg'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Alert } from '@mui/material'
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";

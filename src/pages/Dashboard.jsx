@@ -10,6 +10,7 @@ import Ad from "../assets/ad.webp"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { loggedinUserInfo } from '../slices/userSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -24,6 +25,16 @@ const Dashboard = () => {
     let [verify, setVerify] = useState(false)
     let dispatch = useDispatch()
 
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            dispatch(loggedinUserInfo(user));
+            localStorage.setItem("user", JSON.stringify(user))
+        } else {
+            navigate('/login')
+            setVerify(false)
+        }
+    });
+
     useEffect(() => {
 
         if (!data) {
@@ -37,15 +48,6 @@ const Dashboard = () => {
     }, [data, navigate])
 
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            dispatch(loggedinUserInfo(user));
-            localStorage.setItem("user", JSON.stringify(user))
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
 
 
     return (
@@ -81,7 +83,11 @@ const Dashboard = () => {
 
                 :
 
-                <div className="w-full h-full bg-transparent backdrop-blur-sm absolute top-0 left-0"></div>
+                <div className="w-full h-full bg-transparent backdrop-blur-sm absolute top-0 left-0 flex justify-center items-center">
+                    <div className="w-[460px] h-[280px] bg-black border border-slate-300 rounded-lg shadow-md flex justify-center items-center">
+                        <h4 className="text-xl text-white cursor-pointer">Please, Verify Your Account</h4>
+                    </div>
+                </div>
             }
         </>
     )
