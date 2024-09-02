@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import { stringify } from 'postcss';
 
 const Signup = () => {
     const auth = getAuth();
@@ -46,8 +47,8 @@ const Signup = () => {
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    console.log(user)
-                    // dispatch(loggedinUserInfo(user));
+                    dispatch(loggedinUserInfo(user));
+                    localStorage.setItem("user", JSON.stringify(user))
                 })
                 .catch((error) => {
                     const errorCode = error.code;

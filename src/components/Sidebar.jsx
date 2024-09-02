@@ -48,7 +48,14 @@ const Sidebar = () => {
                         </span>
                     </li>
                 </ul>
-                <IoMdLogOut className='text-[46px] text-white mx-auto' />
+                <div className="relative group text-[46px] text-white mx-auto">
+                    <button>
+                        <IoMdLogOut />
+                    </button>
+                    <span className="absolute left-1/2 translate-x-[-50%] top-[-36px] bg-gray-700 text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Logout
+                    </span>
+                </div>
             </div>
         </section>
     );
