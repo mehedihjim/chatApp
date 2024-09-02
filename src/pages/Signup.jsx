@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import signupImg from './../assets/Signup.png';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import { useSelector } from 'react-redux';
 
 
 const Signup = () => {
@@ -15,9 +16,19 @@ const Signup = () => {
     const db = getDatabase();
     // Firebase Import
 
+    let data = useSelector((state) => state.userInfo.value)
+    let navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (data) {
+            navigate('/')
+        }
+
+    }, [data, navigate])
+
     const notify = () => toast("Email Varification Sent~");
 
-    let navigate = useNavigate();
     let [email, setEmail] = useState('');
     let [name, setName] = useState('');
     let [password, setPassword] = useState('');

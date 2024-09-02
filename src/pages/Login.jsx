@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import signupImg from './../assets/Login.jpg'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { Alert } from '@mui/material'
 import { RiEye2Line, RiEyeCloseLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loggedinUserInfo } from '../slices/userSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,8 +18,18 @@ const Signup = () => {
     const db = getDatabase();
     // Firebase Import
 
+    let data = useSelector((state) => state.userInfo.value)
+    let navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (data) {
+            navigate('/')
+        }
+
+    }, [data, navigate])
+
     let dispatch = useDispatch();
-    let navigate = useNavigate();
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [emailerror, setEmailError] = useState('')
@@ -49,6 +59,7 @@ const Signup = () => {
                     const user = userCredential.user;
                     dispatch(loggedinUserInfo(user));
                     localStorage.setItem("user", JSON.stringify(user))
+                    navigate("/");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -70,20 +81,9 @@ const Signup = () => {
                     profilePic: user.user.photoURL
                 }).then(() => {
                     setTimeout(() => {
-                        console.log(user);
-                        setSuccess(false);
-                        toast.success('Login Success', {
-                            position: "top-right",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            onClose: () => {
-                                navigate("/");
-                            }
-                        });
+                        dispatch(loggedinUserInfo(user));
+                        localStorage.setItem("user", JSON.stringify(user))
+                        navigate("/");
                     }, 1000);
                 })
             }).catch((error) => {

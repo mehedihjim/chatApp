@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import profile from '../assets/profile.png';
 import { FaHome, FaBell } from "react-icons/fa";
 import { FaInbox, FaGear } from "react-icons/fa6";
@@ -9,6 +9,8 @@ const Sidebar = () => {
     const location = useLocation();
 
     const isDashboardActive = location.pathname === '/' || location.pathname === '/dashboard';
+
+
 
     return (
         <section id='sidebar' className='flex-shrink-0 w-[260px] h-screen pl-[32px] pr-[43px] py-[35px]'>
