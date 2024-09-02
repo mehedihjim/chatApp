@@ -7,7 +7,7 @@ const MyGroups = () => {
             <div className="flex-shrink-0">
                 <ItemHeading title='My Groups' />
             </div>
-            <div className="flex-grow overflow-y-auto mt-4">
+            <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-textColor/70 scrollbar-thumb-rounded scrollbar-track-transparent mt-4">
                 <div className="flex flex-col gap-4">
                     {myGroupList.map((users, index) => (
                         <div key={index} className="pb-[14px] text-left border-b">
