@@ -19,15 +19,15 @@ const Signup = () => {
     let data = useSelector((state) => state.userInfo.value)
     let navigate = useNavigate()
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (data) {
-            navigate('/')
-        }
+    //     if (data) {
+    //         navigate('/')
+    //     }
 
-    }, [data, navigate])
+    // }, [data, navigate])
 
-    const notify = () => toast("Email Varification Sent~");
+    // const notify = () => toast("Email Varification Sent~");
 
     let [email, setEmail] = useState('');
     let [name, setName] = useState('');
@@ -90,7 +90,8 @@ const Signup = () => {
                                 set(ref(db, 'users/' + userCredential.user.uid), {
                                     username: userCredential.user.displayName,
                                     email: userCredential.user.email,
-                                    profilePic: '/defaultProfilePic.png'
+                                    profilePic: '/defaultProfilePic.png',
+                                    time: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay() + 1}`
                                 }).then(() => {
                                     setTimeout(() => {
                                         console.log(userCredential);

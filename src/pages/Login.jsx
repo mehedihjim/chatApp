@@ -21,13 +21,13 @@ const Signup = () => {
     let data = useSelector((state) => state.userInfo.value)
     let navigate = useNavigate()
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (data) {
-            navigate('/')
-        }
+    //     if (data) {
+    //         navigate('/')
+    //     }
 
-    }, [data, navigate])
+    // }, [data, navigate])
 
     let dispatch = useDispatch();
     let [email, setEmail] = useState('')
