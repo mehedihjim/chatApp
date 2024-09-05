@@ -1,6 +1,6 @@
 import { IoCameraReverseOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
-import { CiEdit } from "react-icons/ci";
+import { AiOutlineEdit } from "react-icons/ai";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { IoMdHelpCircleOutline } from "react-icons/io";
@@ -25,10 +25,10 @@ const ProfileSettings = () => {
             </div>
             <div className="pt-[43px] pl-9">
                 <ul className='flex flex-col gap-9'>
-                    <li className='flex gap-9 items-center text-xl'><CiEdit className='text-[24px] font-bold text-textColor' />Edit Profile Name</li>
-                    <li className='flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[24px] font-bold text-textColor' />Edit Profile Status Info</li>
-                    <li className='flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[24px] font-bold text-textColor' />Edit Profile Photo</li>
-                    <li className='flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[24px] font-bold text-textColor' />Help</li>
+                    <li className='flex gap-9 items-center text-xl'><AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
+                    <li className='flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status Info</li>
+                    <li className='flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
+                    <li className='flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help</li>
                 </ul>
             </div>
         </div>
