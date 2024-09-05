@@ -14,6 +14,7 @@ import Rootlayout from './layout/Rootlayout';
 import Support from './pages/Support';
 import Funds from './pages/Funds';
 import MiniGames from './pages/MiniGames';
+import Events from './pages/Events';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
         <Route path='/supports' element={<Support />}></Route>
         <Route path='/fundraisers' element={<Funds />}></Route>
         <Route path='/mini-games' element={<MiniGames />}></Route>
+        <Route path='/events' element={<Events />}></Route>
       </Route >
     </>
   )
