@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { FaHome, FaBell } from "react-icons/fa";
 import { FaInbox, FaGear } from "react-icons/fa6";
 import { IoCameraReverseOutline, IoCloseCircle } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadString } from "firebase/storage";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import { getAuth, updateProfile } from 'firebase/auth';
+import { loggedinUserInfo } from '../slices/userSlice';
 
 const Sidebar = () => {
+    const auth = getAuth();
+
+    let dispatch = useDispatch()
+
+    //React Cropper
+    const [image, setImage] = useState(null);
+    const [cropData, setCropData] = useState("");
+    const cropperRef = createRef();
+
+
     let data = useSelector((state) => state.userInfo.value)
 
     const storage = getStorage();
@@ -18,20 +31,39 @@ const Sidebar = () => {
 
     let [imageModal, setImageModal] = useState(false)
 
-    let [imageFile, setImageFile] = useState(null)
-
     let handleImageFile = (e) => {
-        setImageFile(e.target.files[0])
-    }
+        let files;
+        if (e.dataTransfer) {
+            files = e.dataTransfer.files;
+        } else if (e.target) {
+            files = e.target.files;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        };
+        reader.readAsDataURL(files[0]);
+
+    };
 
     let handleUpload = () => {
         const storageRef = ref(storage, 'profile-pic');
-        uploadBytes(storageRef, imageFile).then((snapshot) => {
-            getDownloadURL(storageRef).then((downloadURL) => {
-                console.log('File available at', downloadURL);
+
+        if (typeof cropperRef.current?.cropper !== "undefined") {
+            setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+            const message4 = cropperRef.current?.cropper.getCroppedCanvas().toDataURL();
+            uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+                getDownloadURL(storageRef).then((downloadURL) => {
+                    updateProfile(auth.currentUser, {
+                        photoURL: downloadURL
+                    }).then(() => {
+                        dispatch(loggedinUserInfo(auth.currentUser))
+                        setImageModal(false)
+                    })
+                });
             });
-        });
-    }
+        }
+    };
 
 
     return (
@@ -91,7 +123,7 @@ const Sidebar = () => {
             </div>
             {imageModal &&
                 <div className="z-10 bg-black/30 absolute top-0 left-0 w-full h-full flex justify-center items-center">
-                    <div className="w-[650px] h-[420px] bg-white rounded-lg flex flex-col justify-between overflow-hidden">
+                    <div className="w-[650px] h-[520px] bg-white rounded-lg flex flex-col justify-between overflow-hidden">
                         <div className="w-full h-[60px] bg-black flex items-center px-[30px] justify-between">
                             <h4 className='text-white font-bold'>Upload Photo!</h4>
                             <IoCloseCircle className='text-white font-normal text-xl cursor-pointer' onClick={() => setImageModal(false)} />
@@ -104,6 +136,24 @@ const Sidebar = () => {
                                 </div> */}
                             </label>
                         </div>
+                        {image &&
+                            <Cropper
+                                ref={cropperRef}
+                                style={{ height: 400, width: "100%" }}
+                                zoomTo={0.5}
+                                initialAspectRatio={1}
+                                preview=".img-preview"
+                                src={image}
+                                viewMode={1}
+                                minCropBoxHeight={10}
+                                minCropBoxWidth={10}
+                                background={false}
+                                responsive={true}
+                                autoCropArea={1}
+                                checkOrientation={false}
+                                guides={true}
+                            />
+                        }
                         <div className="w-full h-[60px] border flex items-center justify-end gap-4 px-[30px]">
                             <button onClick={() => setImageModal(false)} className='bg-gray-200 py-1 px-3 border border-slate-300 rounded-full'>Cancel</button>
                             <button onClick={handleUpload} className='bg-black text-white py-1 px-3 border border-slate-300 rounded-full'>Upload</button>
@@ -112,8 +162,8 @@ const Sidebar = () => {
                 </div>
 
             }
-        </section>
-    );
+        </section >
+    )
 }
 
 export default Sidebar;

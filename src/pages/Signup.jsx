@@ -19,16 +19,6 @@ const Signup = () => {
     let data = useSelector((state) => state.userInfo.value)
     let navigate = useNavigate()
 
-    // useEffect(() => {
-
-    //     if (data) {
-    //         navigate('/')
-    //     }
-
-    // }, [data, navigate])
-
-    // const notify = () => toast("Email Varification Sent~");
-
     let [email, setEmail] = useState('');
     let [name, setName] = useState('');
     let [password, setPassword] = useState('');
