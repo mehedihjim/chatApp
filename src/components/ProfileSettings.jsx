@@ -10,10 +10,13 @@ import "cropperjs/dist/cropper.css";
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadString } from "firebase/storage";
 import { getAuth, updateProfile } from 'firebase/auth';
 import { loggedinUserInfo } from '../slices/userSlice';
+import { update, ref as dref, getDatabase } from 'firebase/database';
+import { ProgressBar } from 'react-loader-spinner'
 
 const ProfileSettings = () => {
 
     const auth = getAuth();
+    const db = getDatabase()
     let dispatch = useDispatch()
     const storage = getStorage();
     let data = useSelector((state) => state.userInfo.value)
@@ -39,6 +42,8 @@ const ProfileSettings = () => {
 
     };
 
+    let [uploadingPic, setUploadingPic] = useState(false)
+
     let handleUpload = () => {
         const storageRef = ref(storage, `UserData/${auth.currentUser.uid}/profilePic`);
 
@@ -51,7 +56,18 @@ const ProfileSettings = () => {
                         photoURL: downloadURL
                     }).then(() => {
                         dispatch(loggedinUserInfo(auth.currentUser))
+                        update(dref(db, 'users/' + data.uid), {
+                            profilePic: downloadURL
+                        });
+
+                        // Ui Stuff
                         setImageModal(false)
+                        setUploadingPic(true)
+                    }).then(() => {
+                        setTimeout(() => {
+                            setUploadingPic(false)
+                            setImageModal(false)
+                        }, 2000)
                     })
                 });
             });
@@ -119,6 +135,20 @@ const ProfileSettings = () => {
                             <button onClick={handleUpload} className='bg-black text-white py-1 px-3 border border-slate-300 rounded-full'>Upload</button>
                         </div>
                     </div>
+                </div>
+            }
+            {uploadingPic &&
+                <div className="z-10 bg-white/60 absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-6">
+                    <ProgressBar
+                        visible={true}
+                        height="120"
+                        width="120"
+                        color="#4fa94d"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                    <div><h2 className='text-textColor text-6xl'>Profile Picture Uploading...</h2></div>
                 </div>
             }
         </div>

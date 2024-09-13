@@ -6,14 +6,16 @@ import { IoMdLogOut } from "react-icons/io";
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadString } from "firebase/storage";
+import { getAuth, updateProfile, signOut } from 'firebase/auth';
+import { getDatabase, ref as dref, update } from 'firebase/database';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { getAuth, updateProfile, signOut } from 'firebase/auth';
 import { loggedinUserInfo } from '../slices/userSlice';
 import { ProgressBar } from 'react-loader-spinner'
 
 const Sidebar = () => {
     const auth = getAuth();
+    const db = getDatabase();
 
     let dispatch = useDispatch()
 
@@ -61,13 +63,18 @@ const Sidebar = () => {
                         photoURL: downloadURL
                     }).then(() => {
                         dispatch(loggedinUserInfo(auth.currentUser))
+                        update(dref(db, 'users/' + data.uid), {
+                            profilePic: downloadURL
+                        });
+
+                        // Ui Stuff
                         setImageModal(false)
                         setUploadingPic(true)
                     }).then(() => {
                         setTimeout(() => {
                             setUploadingPic(false)
                             setImageModal(false)
-                        }, 5000)
+                        }, 2000)
                     })
                 });
             });
@@ -185,8 +192,8 @@ const Sidebar = () => {
                 <div className="z-10 bg-white/60 absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-6">
                     <ProgressBar
                         visible={true}
-                        height="80"
-                        width="80"
+                        height="120"
+                        width="120"
                         color="#4fa94d"
                         ariaLabel="progress-bar-loading"
                         wrapperStyle={{}}
