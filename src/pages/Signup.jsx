@@ -81,7 +81,7 @@ const Signup = () => {
                                     username: userCredential.user.displayName,
                                     email: userCredential.user.email,
                                     profilePic: '/defaultProfilePic.png',
-                                    time: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay() + 1}`
+                                    time: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}-${new Date().getHours()}-${new Date().getMinutes()}`
                                 }).then(() => {
                                     setTimeout(() => {
                                         console.log(userCredential);

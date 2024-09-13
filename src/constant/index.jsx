@@ -14,61 +14,6 @@ import group1 from "../assets/group-pic/fundraising.png"
 import group2 from "../assets/group-pic/genz.png"
 import group3 from "../assets/group-pic/music.png"
 
-// Games images
-
-import game1 from "../assets/games/basketball.jpg"
-import game2 from "../assets/games/coin.jpg"
-import game3 from "../assets/games/ludo.jpg"
-import game4 from "../assets/games/quiz.jpg"
-import game5 from "../assets/games/swap.jpg"
-import game6 from "../assets/games/woohoo.jpg"
-import game7 from "../assets/games/words.jpg"
-
-export const games = [
-    {
-        name: "Basketball",
-        players: "3.1m players",
-        img: game1,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Coin",
-        players: "3m players",
-        img: game2,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Ludo",
-        players: "2.8m players",
-        img: game3,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Quiz",
-        players: "2.7m players",
-        img: game4,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Swip",
-        players: "2.4m players",
-        img: game5,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Woohoo",
-        players: "2.1m players",
-        img: game6,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    },
-    {
-        name: "Words",
-        players: "1.8m players",
-        img: game7,
-        link: "https://www.facebook.com/gaming/play/800772590062226/?source=most_played_games"
-    }
-]
-
 export const userList = [
     {
         name: "Elon Musk",

@@ -78,7 +78,8 @@ const Signup = () => {
                 set(ref(db, 'users/' + user.user.uid), {
                     username: user.user.displayName,
                     email: user.user.email,
-                    profilePic: user.user.photoURL
+                    profilePic: user.user.photoURL,
+                    time: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}-${new Date().getHours()}-${new Date().getMinutes()}`
                 }).then(() => {
                     setTimeout(() => {
                         dispatch(loggedinUserInfo(user));

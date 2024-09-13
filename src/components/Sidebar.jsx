@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadString } from "firebase/storage";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { getAuth, updateProfile } from 'firebase/auth';
+import { getAuth, updateProfile, signOut } from 'firebase/auth';
 import { loggedinUserInfo } from '../slices/userSlice';
+import { ProgressBar } from 'react-loader-spinner'
 
 const Sidebar = () => {
     const auth = getAuth();
@@ -46,8 +47,10 @@ const Sidebar = () => {
 
     };
 
+    let [uploadingPic, setUploadingPic] = useState(false)
+
     let handleUpload = () => {
-        const storageRef = ref(storage, 'profile-pic');
+        const storageRef = ref(storage, `UserData/${auth.currentUser.uid}/profilePic`);
 
         if (typeof cropperRef.current?.cropper !== "undefined") {
             setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
@@ -59,24 +62,40 @@ const Sidebar = () => {
                     }).then(() => {
                         dispatch(loggedinUserInfo(auth.currentUser))
                         setImageModal(false)
+                        setUploadingPic(true)
+                    }).then(() => {
+                        setTimeout(() => {
+                            setUploadingPic(false)
+                            setImageModal(false)
+                        }, 5000)
                     })
                 });
             });
         }
     };
 
+    let handleSignOut = () => {
+
+
+        const auth = getAuth();
+        signOut(auth).then(() => {
+            // Sign-out successful.
+        }).catch((error) => {
+            // An error happened.
+        });
+    }
 
     return (
         <section id='sidebar' className='flex-shrink-0 w-[260px] h-screen pl-[32px] pr-[43px] py-[35px]'>
             <div className="w-full h-full bg-black rounded-[20px] pt-[38px] pb-[48px] flex flex-col justify-between">
                 <div className="flex flex-col gap-4 mx-auto text-white items-center group cursor-pointer">
                     <div className="w-[100px] h-[100px] rounded-full bg-red-100 relative overflow-hidden">
-                        <img src={data.photoURL} alt="profile pic" className='w-full h-full' />
+                        <img src={data && data.photoURL} alt="profile pic" className='w-full h-full' />
                         <div onClick={() => setImageModal(true)} className="w-full h-full bg-black/40 absolute top-0 left-0 flex justify-center items-center text-2xl opacity-0 group-hover:opacity-100 duration-300">
                             <IoCameraReverseOutline />
                         </div>
                     </div>
-                    <h4 className='w-[80%] text-center text-lg'>{data.displayName}</h4>
+                    <h4 className='w-[80%] text-center text-lg'>{data && data.displayName}</h4>
                 </div>
                 <ul className='flex flex-col items-center gap-[70px] text-[42px] text-gray-500 mt-[-65px] relative'>
                     <li className="relative group">
@@ -112,8 +131,8 @@ const Sidebar = () => {
                         </span>
                     </li>
                 </ul>
-                <div className="relative group text-[46px] text-white mx-auto">
-                    <button>
+                <div className="relative group text-[46px] text-red-600 hover:text-red-800 duration-300 mx-auto">
+                    <button onClick={handleSignOut}>
                         <IoMdLogOut />
                     </button>
                     <span className="absolute left-1/2 translate-x-[-50%] top-[-36px] bg-gray-700 text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -161,6 +180,20 @@ const Sidebar = () => {
                     </div>
                 </div>
 
+            }
+            {uploadingPic &&
+                <div className="z-10 bg-white/60 absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-6">
+                    <ProgressBar
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color="#4fa94d"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                    <div><h2 className='text-textColor text-6xl'>Profile Picture Uploading...</h2></div>
+                </div>
             }
         </section >
     )

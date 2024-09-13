@@ -40,7 +40,7 @@ const ProfileSettings = () => {
     };
 
     let handleUpload = () => {
-        const storageRef = ref(storage, 'profile-pic');
+        const storageRef = ref(storage, `UserData/${auth.currentUser.uid}/profilePic`);
 
         if (typeof cropperRef.current?.cropper !== "undefined") {
             setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
@@ -75,9 +75,9 @@ const ProfileSettings = () => {
             </div>
             <div className="pt-[43px] pl-9">
                 <ul className='flex flex-col gap-9'>
-                    <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
+                    <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
                     <li className='cursor-pointer flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status Info</li>
-                    <li className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
+                    <li className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
                     <li className='cursor-pointer flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help</li>
                 </ul>
             </div>
