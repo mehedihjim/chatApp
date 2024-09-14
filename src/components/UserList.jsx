@@ -1,7 +1,7 @@
 import ItemHeading from './ItemHeading';
 import { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from "firebase/database";
-import { FiUserPlus } from "react-icons/fi";
+import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import defaultPic from '../assets/profile-pic/defaultProfilePic.png'
@@ -15,6 +15,9 @@ const UserList = () => {
 
     let [userList, setUserList] = useState([])
 
+    let [requestSent, setRequestSent] = useState(false)
+
+
     useEffect(() => {
 
         const userListRef = ref(db, 'users/');
@@ -22,13 +25,22 @@ const UserList = () => {
             let array = []
             snapshot.forEach((item) => {
                 if (data.uid != item.key) {
-                    array.push(item.val())
+                    array.push({ ...item.val(), uid: item.key })
                 }
             })
             setUserList(array)
         });
 
     }, [])
+
+    let handleRequests = (item) => {
+        console.log(item.uid)
+        set(ref(db, 'users/' + userId), {
+            username: name,
+            email: email,
+            profile_picture: imageUrl
+        });
+    }
 
     return (
         <div className='w-full h-full flex flex-col'>
@@ -49,7 +61,15 @@ const UserList = () => {
                                     </p>
                                 </div>
                             </div>
-                            <button href="#" className="bg-black p-[8px] rounded-[5px] text-white my-auto"><FiUserPlus /></button>
+
+                            <button href="#" onClick={() => handleRequests(item)} className="bg-black p-[8px] rounded-[5px] text-white my-auto">
+                                {requestSent ?
+                                    <FiUserCheck /> :
+                                    <FiUserPlus />
+                                }
+                            </button>
+
+
                         </div>
                     ))}
                 </div>
