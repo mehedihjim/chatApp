@@ -49,11 +49,14 @@ const UserList = () => {
             sendername: data.displayName,
             senderemail: data.email,
             senderuid: data.uid,
+            senderimage: data.photoURL,
             receivername: item.username,
             receiveremail: item.email,
             receiveruid: item.uid,
+            receiverimage: item.profilePic,
         });
     }
+
 
     return (
         <div className='w-full h-full flex flex-col'>
