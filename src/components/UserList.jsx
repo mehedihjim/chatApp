@@ -1,6 +1,6 @@
 import ItemHeading from './ItemHeading';
 import { useEffect, useState } from 'react';
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,8 +14,7 @@ const UserList = () => {
     let data = useSelector((state) => state.userInfo.value)
 
     let [userList, setUserList] = useState([])
-
-    let [requestSent, setRequestSent] = useState(false)
+    let [requestList, setRequestList] = useState([])
 
 
     useEffect(() => {
@@ -33,12 +32,26 @@ const UserList = () => {
 
     }, [])
 
+    useEffect(() => {
+
+        const friendRequestRef = ref(db, 'friendrequests/');
+        onValue(friendRequestRef, (snapshot) => {
+            let array = []
+            snapshot.forEach((item) => {
+                array.push(item.val().senderuid + item.val().receiveruid)
+            })
+            setRequestList(array)
+        });
+    }, [])
+
     let handleRequests = (item) => {
-        console.log(item.uid)
-        set(ref(db, 'users/' + userId), {
-            username: name,
-            email: email,
-            profile_picture: imageUrl
+        set(push(ref(db, 'friendrequests/')), {
+            sendername: data.displayName,
+            senderemail: data.email,
+            senderuid: data.uid,
+            receivername: item.username,
+            receiveremail: item.email,
+            receiveruid: item.uid,
         });
     }
 
@@ -62,19 +75,22 @@ const UserList = () => {
                                 </div>
                             </div>
 
-                            <button href="#" onClick={() => handleRequests(item)} className="bg-black p-[8px] rounded-[5px] text-white my-auto">
-                                {requestSent ?
-                                    <FiUserCheck /> :
+                            {requestList.includes(data.uid + item.uid) || requestList.includes(item.uid + data.uid) ?
+                                <button href="#" className="bg-black p-[8px] rounded-[5px] text-white my-auto">
+                                    <FiUserCheck />
+                                </button>
+                                :
+                                <button href="#" onClick={() => handleRequests(item)} className="bg-black p-[8px] rounded-[5px] text-white my-auto">
                                     <FiUserPlus />
-                                }
-                            </button>
+                                </button>
+                            }
 
 
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
