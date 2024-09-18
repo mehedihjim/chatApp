@@ -30,6 +30,14 @@ const FriendRequest = () => {
         });
     }, [])
 
+    let handleAcceptRequest = (item) => {
+        console.log(item)
+    }
+
+    let handleCancelRequest = (item) => {
+        console.log(item.sendername + `'s request canceled`)
+    }
+
     return (
         <div className='w-full h-full flex flex-col'>
             <div className="flex-shrink-0">
@@ -46,7 +54,13 @@ const FriendRequest = () => {
                                     <p className='mt-[5px] font-medium text-[10px] text-black/50'>Hello!</p>
                                 </div>
                             </div>
-                            <button href="#" className="bg-black px-[22px] rounded-[5px] text-white my-auto">Accept</button>
+                            <div className="relative group  my-auto">
+                                <button href="#" className="bg-black px-[22px] rounded-[5px] text-white">Response</button>
+                                <div className="absolute top-0 right-full bg-white border border-slate-300 rounded-md py-4 px-5 flex flex-col gap-2 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-300">
+                                    <button onClick={() => handleAcceptRequest(item)} className='bg-transparent text-textColor border border-slate-300 px-[22px] rounded-[5px]'>Accept</button>
+                                    <button onClick={() => handleCancelRequest(item)} className='bg-transparent text-red-500 border border-red-300 px-[22px] rounded-[5px]'>Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
