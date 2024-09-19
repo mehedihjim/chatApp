@@ -27,6 +27,8 @@ const ProfileSettings = () => {
 
     let [imageModal, setImageModal] = useState(false)
 
+    let [name, setName] = useState('')
+
     let handleImageFile = (e) => {
         let files;
         if (e.dataTransfer) {
@@ -42,7 +44,7 @@ const ProfileSettings = () => {
 
     };
 
-    let [uploadingPic, setUploadingPic] = useState(false)
+    let [uploading, setUploading] = useState(false)
 
     let handleUpload = () => {
         const storageRef = ref(storage, `UserData/${auth.currentUser.uid}/profilePic`);
@@ -62,10 +64,10 @@ const ProfileSettings = () => {
 
                         // Ui Stuff
                         setImageModal(false)
-                        setUploadingPic(true)
+                        setUploading(true)
                     }).then(() => {
                         setTimeout(() => {
-                            setUploadingPic(false)
+                            setUploading(false)
                             setImageModal(false)
                         }, 2000)
                     })
@@ -73,6 +75,32 @@ const ProfileSettings = () => {
             });
         }
     };
+
+    let [profileNameModal, setProfileNameModal] = useState(false)
+
+    let handleName = (e) => {
+        setName(e.target.value)
+    }
+
+    let handleSubmit = () => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        }).then(() => {
+            dispatch(loggedinUserInfo(auth.currentUser))
+            update(dref(db, 'users/' + data.uid), {
+                displayName: name
+            });
+
+            // Ui Stuff
+            setProfileNameModal(false)
+            setUploading(true)
+        }).then(() => {
+            setTimeout(() => {
+                setUploading(false)
+                setProfileNameModal(false)
+            }, 2000)
+        })
+    }
 
     return (
         <div className='bg-white shadow-md w-full h-[800px] py-[26px] px-[40px] rounded-2xl border border-textColor/20'>
@@ -91,9 +119,9 @@ const ProfileSettings = () => {
             </div>
             <div className="pt-[43px] pl-9">
                 <ul className='flex flex-col gap-9'>
-                    <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
-                    <li className='cursor-pointer flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status Info</li>
-                    <li className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
+                    <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
+                    <li onClick={() => setProfileNameModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'>< AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
+                    <li className='cursor-pointer flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status</li>
                     <li className='cursor-pointer flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help</li>
                 </ul>
             </div>
@@ -137,7 +165,7 @@ const ProfileSettings = () => {
                     </div>
                 </div>
             }
-            {uploadingPic &&
+            {uploading &&
                 <div className="z-10 bg-white/60 absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-6">
                     <ProgressBar
                         visible={true}
@@ -148,7 +176,19 @@ const ProfileSettings = () => {
                         wrapperStyle={{}}
                         wrapperClass=""
                     />
-                    <div><h2 className='text-textColor text-6xl'>Profile Picture Uploading...</h2></div>
+                    <div><h2 className='text-textColor text-6xl'>Please Wait...</h2></div>
+                </div>
+            }
+            {profileNameModal &&
+                <div className="z-10 bg-black/30 absolute top-0 left-0 w-full h-full flex justify-center items-center">
+                    <div className="relative w-[650px] h-[340px] bg-white rounded-lg flex flex-col justify-center items-center gap-9">
+                        <div className='relative'>
+                            <label className='absolute left-4 lg:left-[52px] top-[-12px] bg-white px-2 lg:px-[15px]'>Re-Enter name</label>
+                            <input onChange={handleName} type="text" className='w-full py-4 lg:py-[26px] pl-4 lg:pl-[52px] pr-4 lg:pr-[66px] border border-[#11175D50] rounded-lg text-lg lg:text-xl font-semibold text-[#11175D70]' />
+                        </div>
+                        <button onClick={handleSubmit} className='px-8 py-2 text-white rounded-md bg-black'>Submit</button>
+                        <IoCloseCircle className='absolute top-[18px] right-[18px] text-textColor font-normal text-xl cursor-pointer' onClick={() => setProfileNameModal(false)} />
+                    </div>
                 </div>
             }
         </div>
