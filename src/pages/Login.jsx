@@ -58,7 +58,7 @@ const Signup = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     dispatch(loggedinUserInfo(user));
-                    localStorage.setItem("user", JSON.stringify(user))
+                    localStorage.setItem("user", JSON.stringify(user));
                     navigate("/");
                 })
                 .catch((error) => {

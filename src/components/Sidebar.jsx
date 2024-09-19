@@ -149,7 +149,7 @@ const Sidebar = () => {
             </div>
             {imageModal &&
                 <div className="z-10 bg-black/30 absolute top-0 left-0 w-full h-full flex justify-center items-center">
-                    <div className="w-[650px] h-[520px] bg-white rounded-lg flex flex-col justify-between overflow-hidden">
+                    <div className="w-[650px] h-[740px] bg-white rounded-lg flex flex-col justify-between overflow-hidden">
                         <div className="w-full h-[60px] bg-black flex items-center px-[30px] justify-between">
                             <h4 className='text-white font-bold'>Upload Photo!</h4>
                             <IoCloseCircle className='text-white font-normal text-xl cursor-pointer' onClick={() => setImageModal(false)} />

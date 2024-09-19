@@ -54,7 +54,7 @@ const UserList = () => {
             receiveremail: item.email,
             receiveruid: item.uid,
             receiverimage: item.profilePic,
-        });
+        })
     }
 
 

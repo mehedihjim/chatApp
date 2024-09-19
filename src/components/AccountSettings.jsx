@@ -4,7 +4,7 @@ import { RiExchangeFundsLine, RiDeleteBin4Line } from "react-icons/ri";
 const AccountSettings = () => {
     return (
         <div className='bg-white shadow-md w-full h-[800px] py-[26px] px-[40px] rounded-2xl border border-textColor/20'>
-            <h4 className='text-textColor text-xl font-semibold mb-10'>Profile Settings</h4>
+            <h4 className='text-textColor text-xl font-semibold mb-10'>Account Settings</h4>
             <div className="pl-9">
                 <ul className='flex flex-col gap-9'>
                     <li className='flex gap-9 items-center text-xl'><FaKey className='text-[28px] font-bold text-textColor' />Change Password</li>
