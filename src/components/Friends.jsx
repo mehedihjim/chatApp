@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ItemHeading from './ItemHeading'
 import { friends } from "../constant";
 import { useSelector } from 'react-redux';
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, onValue, push, ref, set } from 'firebase/database';
 import moment from 'moment';
 import defaultImg from '../assets/profile-pic/defaultProfilePic.png'
 
@@ -29,6 +29,17 @@ const Friends = () => {
             setFriendList(array)
         });
     }, [])
+
+
+
+    let handleBlock = (item) => {
+        // set(push(ref(db, 'blocked/')), {
+        //     blockedby: data
+        // }).then(() => {
+        //     remove(ref(db, 'friendrequests/' + item.key))
+        // })
+        console.log(data)
+    }
 
 
     return (
@@ -61,7 +72,7 @@ const Friends = () => {
                             </div>
                             <div className="my-auto flex flex-col gap-2">
                                 <button className="bg-black px-[18px] rounded-[5px] text-white my-auto">Message</button>
-                                <button className="border border-slate-300 px-[21px] rounded-[5px] text-textColor my-auto">Block</button>
+                                <button onClick={() => handleBlock(item)} className="border border-slate-300 px-[21px] rounded-[5px] text-textColor my-auto">Block</button>
                             </div>
                         </div>
                     ))}

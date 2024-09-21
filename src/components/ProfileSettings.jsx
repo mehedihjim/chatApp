@@ -12,6 +12,7 @@ import { getAuth, updateProfile } from 'firebase/auth';
 import { loggedinUserInfo } from '../slices/userSlice';
 import { update, ref as dref, getDatabase } from 'firebase/database';
 import { ProgressBar } from 'react-loader-spinner'
+import { Link } from 'react-router-dom';
 
 const ProfileSettings = () => {
 
@@ -122,7 +123,7 @@ const ProfileSettings = () => {
                     <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
                     <li onClick={() => setProfileNameModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'>< AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
                     <li className='cursor-pointer flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status</li>
-                    <li className='cursor-pointer flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help</li>
+                    <li ><Link to='/help-&-supports' className='cursor-pointer flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help & Supports</Link></li>
                 </ul>
             </div>
             {imageModal &&

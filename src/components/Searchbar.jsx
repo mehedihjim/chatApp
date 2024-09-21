@@ -17,7 +17,7 @@ const Searchbar = () => {
             </div>
             <ul className="flex flex-col my-auto text-textColor px-2 font-semibold text-lg">
                 <li className="border-b  border-slate-300 py-4">
-                    <Link to='/supports' className="flex gap-3">
+                    <Link to='/help-&-supports' className="flex gap-3">
                         <div className="w-[50px] h-[50px] p-3 rounded-full bg-[#D8DADF] flex items-center justify-center">
                             <TbProgressHelp className="text-2xl" />
                         </div>

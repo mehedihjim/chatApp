@@ -28,7 +28,7 @@ const router = createBrowserRouter(
         <Route path='/messages' element={<Message />}></Route>
         <Route path='/notifications' element={<Notifications />}></Route>
         <Route path='/settings' element={<Settings />}></Route>
-        <Route path='/supports' element={<Support />}></Route>
+        <Route path='/help-&-supports' element={<Support />}></Route>
         <Route path='/fundraisers' element={<Funds />}></Route>
         <Route path='/mini-games' element={<MiniGames />}></Route>
         <Route path='/events' element={<Events />}></Route>
