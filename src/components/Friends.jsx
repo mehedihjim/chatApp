@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ItemHeading from './ItemHeading'
 import { friends } from "../constant";
 import { useSelector } from 'react-redux';
-import { getDatabase, onValue, push, ref, set } from 'firebase/database';
+import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database';
 import moment from 'moment';
 import defaultImg from '../assets/profile-pic/defaultProfilePic.png'
 
@@ -33,12 +33,25 @@ const Friends = () => {
 
 
     let handleBlock = (item) => {
-        // set(push(ref(db, 'blocked/')), {
-        //     blockedby: data
-        // }).then(() => {
-        //     remove(ref(db, 'friendrequests/' + item.key))
-        // })
-        console.log(data)
+        if (data.uid == item.senderuid) {
+            set(push(ref(db, 'blocked/')), {
+                blockedbyuid: data.uid,
+                blockedby: data.displayName,
+                blockeduid: item.receiveruid,
+                blocked: item.receivername
+            }).then(() => {
+                remove(ref(db, 'friendlist/' + item.key))
+            })
+        } else {
+            set(push(ref(db, 'blocked/')), {
+                blockedbyuid: data.uid,
+                blockedby: data.displayName,
+                blockeduid: item.senderuid,
+                blocked: item.sendername
+            }).then(() => {
+                remove(ref(db, 'friendlist/' + item.key))
+            })
+        }
     }
 
 
