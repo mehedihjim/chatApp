@@ -17,25 +17,24 @@ const Blocked = () => {
 
     useEffect(() => {
 
-        const blockListRef = ref(db, 'blocked/');
+        const blockListRef = ref(db, 'blocklist/');
         onValue(blockListRef, (snapshot) => {
             let array = []
             snapshot.forEach((item) => {
                 if (data.uid == item.val().blockedbyuid) {
                     array.push({
+                        blocked: item.val().blocked,
                         blockeduid: item.val().blockeduid,
-                        blocked: item.val().blocked
-                    })
-                } else if (data.uid == item.val().blockeduid) {
-                    array.push({
-                        blockedbyuid: item.val().blockedbyuid,
-                        blockedby: item.val().blockedby
-                    })
+                    });
                 }
-            })
+            });
             setBlockList(array)
         });
     }, [])
+
+    let handleUnblock = (item) => {
+        console.log('Clicked ' + item.blockeduid)
+    }
 
     return (
         <div className='w-full h-full flex flex-col'>
@@ -54,19 +53,7 @@ const Blocked = () => {
                                     <p className="font-medium text-sm text-textOther">Don't text me~</p>
                                 </div>
                             </div>
-                            {/* {console.log(item)} */}
-                            {data.uid == item.blockedbyuid ?
-                                <p className='mt-[5px] font-medium text-[10px] text-black/50'>
-                                    <span>Last </span>
-                                    {moment(item.time, "YYYYMMDDhh:mm").fromNow()}
-                                </p>
-                                :
-                                <button className="bg-black px-[18px] rounded-[5px] text-white my-auto">Unblock</button>
-                            }
-                            {/* <p className='mt-[5px] font-medium text-[10px] text-black/50'>
-                                <span>Last </span>
-                                {moment(item.time, "YYYYMMDDhh:mm").fromNow()}
-                            </p> */}
+                            <button onClick={() => handleUnblock(item)} className="bg-black px-[18px] rounded-[5px] text-white my-auto">Unblock</button>
                         </div>
                     ))}
                 </div>

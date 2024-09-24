@@ -34,7 +34,7 @@ const Friends = () => {
 
     let handleBlock = (item) => {
         if (data.uid == item.senderuid) {
-            set(push(ref(db, 'blocked/')), {
+            set(push(ref(db, 'blocklist/')), {
                 blockedbyuid: data.uid,
                 blockedby: data.displayName,
                 blockeduid: item.receiveruid,
@@ -43,7 +43,7 @@ const Friends = () => {
                 remove(ref(db, 'friendlist/' + item.key))
             })
         } else {
-            set(push(ref(db, 'blocked/')), {
+            set(push(ref(db, 'blocklist/')), {
                 blockedbyuid: data.uid,
                 blockedby: data.displayName,
                 blockeduid: item.senderuid,

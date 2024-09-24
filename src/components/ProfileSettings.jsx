@@ -47,6 +47,7 @@ const ProfileSettings = () => {
 
     let [uploading, setUploading] = useState(false)
 
+    // Profile Picture Change ↓
     let handleUpload = () => {
         const storageRef = ref(storage, `UserData/${auth.currentUser.uid}/profilePic`);
 
@@ -83,13 +84,16 @@ const ProfileSettings = () => {
         setName(e.target.value)
     }
 
+
+    // Profile Name Change ↓
     let handleSubmit = () => {
         updateProfile(auth.currentUser, {
             displayName: name
         }).then(() => {
             dispatch(loggedinUserInfo(auth.currentUser))
             update(dref(db, 'users/' + data.uid), {
-                displayName: name
+                displayName: name,
+                username: name
             });
 
             // Ui Stuff
