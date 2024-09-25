@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { blocked } from "../constant"
 import ItemHeading from "./ItemHeading"
-import { getDatabase, onValue, ref } from "firebase/database";
+import { getDatabase, onValue, ref, remove } from "firebase/database";
 import defaultImg from '../assets/profile-pic/defaultProfilePic.png'
 import { useSelector } from "react-redux";
 import moment from "moment";
@@ -25,6 +25,7 @@ const Blocked = () => {
                     array.push({
                         blocked: item.val().blocked,
                         blockeduid: item.val().blockeduid,
+                        key: item.key
                     });
                 }
             });
@@ -33,7 +34,7 @@ const Blocked = () => {
     }, [])
 
     let handleUnblock = (item) => {
-        console.log('Clicked ' + item.blockeduid)
+        remove(ref(db, 'blocklist/' + item.key))
     }
 
     return (
@@ -49,7 +50,6 @@ const Blocked = () => {
                                 <img src={defaultImg} alt="profile" className="w-[70px] h-[70px] rounded-full border border-slate-400" />
                                 <div className="flex flex-col my-auto">
                                     <h6 className="font-semibold text-lg text-textColor">{item.blocked}</h6>
-                                    <h6 className="font-semibold text-lg text-textColor">{item.blockedby}</h6>
                                     <p className="font-medium text-sm text-textOther">Don't text me~</p>
                                 </div>
                             </div>
