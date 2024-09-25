@@ -4,13 +4,13 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { IoMdHelpCircleOutline } from "react-icons/io";
-import { createRef, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadString } from "firebase/storage";
 import { getAuth, updateProfile } from 'firebase/auth';
 import { loggedinUserInfo } from '../slices/userSlice';
-import { update, ref as dref, getDatabase } from 'firebase/database';
+import { update, ref as dref, getDatabase, onValue } from 'firebase/database';
 import { ProgressBar } from 'react-loader-spinner'
 import { Link } from 'react-router-dom';
 
@@ -84,7 +84,6 @@ const ProfileSettings = () => {
         setName(e.target.value)
     }
 
-
     // Profile Name Change ↓
     let handleSubmit = () => {
         updateProfile(auth.currentUser, {
@@ -107,6 +106,51 @@ const ProfileSettings = () => {
         })
     }
 
+
+    // Profile Status Change ↓
+    let [statusModal, setStatusModal] = useState(false)
+
+    let [status, setStatus] = useState('')
+
+    let handleStatus = (e) => {
+
+        setStatus(e.target.value)
+    }
+
+    let updateStatus = () => {
+        updateProfile(auth.currentUser, {
+            statusData: status
+        }).then(() => {
+            dispatch(loggedinUserInfo(auth.currentUser))
+            update(dref(db, 'users/' + data.uid), {
+                statusData: status
+            });
+
+            // Ui Stuff
+            setStatusModal(false)
+            setUploading(true)
+        }).then(() => {
+            setTimeout(() => {
+                setUploading(false)
+                setStatusModal(false)
+            }, 2000)
+        })
+    }
+
+    // let [showStatus, setShowStatus] = useState([])
+
+    // useEffect(() => {
+
+    //     const profileStatusRef = dref(db, 'users/');
+    //     onValue(profileStatusRef, (snapshot) => {
+    //         let array = []
+    //         snapshot.forEach((item) => {
+    //             array.push(item.val().status)
+    //         })
+    //         setShowStatus(array)
+    //     });
+    // }, [])
+
     return (
         <div className='bg-white shadow-md w-full h-[800px] py-[26px] px-[40px] rounded-2xl border border-textColor/20'>
             <h4 className='text-textColor text-xl font-semibold mb-12'>Profile Settings</h4>
@@ -119,14 +163,15 @@ const ProfileSettings = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <h4 className='text-textColor text-[25px] font-semibold'>{data.displayName}</h4>
-                    <p className='text-xl'>Joy Bangla...</p>
+                    <p className='text-xl'>
+                        {data.email}
+                    </p>
                 </div>
             </div>
             <div className="pt-[43px] pl-9">
                 <ul className='flex flex-col gap-9'>
                     <li onClick={() => setImageModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'><MdOutlineAddPhotoAlternate className='text-[28px] font-bold text-textColor' />Edit Profile Photo</li>
                     <li onClick={() => setProfileNameModal(true)} className='cursor-pointer flex gap-9 items-center text-xl'>< AiOutlineEdit className='text-[28px] font-bold text-textColor' />Edit Profile Name</li>
-                    <li className='cursor-pointer flex gap-9 items-center text-xl'><BiMessageSquareEdit className='text-[28px] font-bold text-textColor' />Edit Profile Status</li>
                     <li ><Link to='/help-&-supports' className='cursor-pointer flex gap-9 items-center text-xl'><IoMdHelpCircleOutline className='text-[28px] font-bold text-textColor' />Help & Supports</Link></li>
                 </ul>
             </div>
