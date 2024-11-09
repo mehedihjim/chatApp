@@ -49,8 +49,6 @@ const Searchbar = () => {
                     </Link>
                 </li>
             </ul>
-
-
         </div>
     )
 }
