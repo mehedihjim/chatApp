@@ -39,6 +39,18 @@ const Message = () => {
                     </div>
                     <CiMenuKebab className="text-2xl cursor-pointer text-[32px] my-auto" />
                 </div>
+                <div className="w-full h-full py-[47px] flex flex-col gap-5">
+                    <div className="text-base font-medium">
+                        {/* recieved message */}
+                        <div className="max-w-[50%] h-fit w-fit px-[42px] py-[13px] bg-[#f1f1f1] rounded-full">Hello, How are you doing?</div>
+                        <p className='text-black/25 pl-4 text-sm mt-2'>Today, 2:02pm</p>
+                    </div>
+                    <div className="text-base font-medium flex flex-col items-end">
+                        {/* sent message */}
+                        <div className="max-w-[50%] h-fit w-fit px-[42px] py-[13px] bg-black text-white rounded-full">Hello, I'm Good! How's you training going?</div>
+                        <p className='text-black/25 pr-4 text-sm mt-2'>Today, 2:02pm</p>
+                    </div>
+                </div>
                 <div className="pt-[35px] border-t border-slate-300 flex justify-between">
                     <div className="relative w-[537px]">
                         <input type="text" className='w-full h-[45px] rounded-md bg-gray-200 outline-none px-3' />
